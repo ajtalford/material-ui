@@ -1,35 +1,29 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import FormGroup from '../FormGroup';
 import useForkRef from '../utils/useForkRef';
+import useControlled from '../utils/useControlled';
 import RadioGroupContext from './RadioGroupContext';
+import useId from '../utils/unstable_useId';
 
 const RadioGroup = React.forwardRef(function RadioGroup(props, ref) {
-  const { actions, children, name, value: valueProp, onChange, ...other } = props;
+  const {
+    // private
+    // eslint-disable-next-line react/prop-types
+    actions,
+    children,
+    name: nameProp,
+    value: valueProp,
+    onChange,
+    ...other
+  } = props;
   const rootRef = React.useRef(null);
 
-  const { current: isControlled } = React.useRef(valueProp != null);
-  const [valueState, setValue] = React.useState(props.defaultValue);
-  const value = isControlled ? valueProp : valueState;
-
-  if (process.env.NODE_ENV !== 'production') {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    React.useEffect(() => {
-      if (isControlled !== (valueProp != null)) {
-        console.error(
-          [
-            `Material-UI: A component is changing ${
-              isControlled ? 'a ' : 'an un'
-            }controlled RadioGroup to be ${isControlled ? 'un' : ''}controlled.`,
-            'Elements should not switch from uncontrolled to controlled (or vice versa).',
-            'Decide between using a controlled or uncontrolled RadioGroup ' +
-              'element for the lifetime of the component.',
-            'More info: https://fb.me/react-controlled-components',
-          ].join('\n'),
-        );
-      }
-    }, [valueProp, isControlled]);
-  }
+  const [value, setValue] = useControlled({
+    controlled: valueProp,
+    default: props.defaultValue,
+    name: 'RadioGroup',
+  });
 
   React.useImperativeHandle(
     actions,
@@ -51,15 +45,15 @@ const RadioGroup = React.forwardRef(function RadioGroup(props, ref) {
 
   const handleRef = useForkRef(ref, rootRef);
 
-  const handleChange = event => {
-    if (!isControlled) {
-      setValue(event.target.value);
-    }
+  const handleChange = (event) => {
+    setValue(event.target.value);
 
     if (onChange) {
       onChange(event, event.target.value);
     }
   };
+
+  const name = useId(nameProp);
 
   return (
     <RadioGroupContext.Provider value={{ name, onChange: handleChange, value }}>
@@ -71,10 +65,10 @@ const RadioGroup = React.forwardRef(function RadioGroup(props, ref) {
 });
 
 RadioGroup.propTypes = {
-  /**
-   * @ignore
-   */
-  actions: PropTypes.shape({ current: PropTypes.object }),
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |     To update them edit the d.ts file and run "yarn proptypes"     |
+  // ----------------------------------------------------------------------
   /**
    * The content of the component.
    */
@@ -82,15 +76,16 @@ RadioGroup.propTypes = {
   /**
    * The default `input` element value. Use when the component is not controlled.
    */
-  defaultValue: PropTypes.any,
+  defaultValue: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.number,
+    PropTypes.string,
+  ]),
   /**
    * The name used to reference the value of the control.
+   * If you don't provide this prop, it falls back to a randomly generated name.
    */
   name: PropTypes.string,
-  /**
-   * @ignore
-   */
-  onBlur: PropTypes.func,
   /**
    * Callback fired when a radio button is selected.
    *
@@ -98,10 +93,6 @@ RadioGroup.propTypes = {
    * You can pull out the new value by accessing `event.target.value` (string).
    */
   onChange: PropTypes.func,
-  /**
-   * @ignore
-   */
-  onKeyDown: PropTypes.func,
   /**
    * Value of the selected radio button. The DOM API casts this to a string.
    */

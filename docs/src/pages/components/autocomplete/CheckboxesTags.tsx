@@ -17,8 +17,8 @@ export default function CheckboxesTags() {
       id="checkboxes-tags-demo"
       options={top100Films}
       disableCloseOnSelect
-      getOptionLabel={(option: FilmOptionType) => option.title}
-      renderOption={(option: FilmOptionType, { selected }) => (
+      getOptionLabel={(option) => option.title}
+      renderOption={(option, { selected }) => (
         <React.Fragment>
           <Checkbox
             icon={icon}
@@ -30,22 +30,11 @@ export default function CheckboxesTags() {
         </React.Fragment>
       )}
       style={{ width: 500 }}
-      renderInput={params => (
-        <TextField
-          {...params}
-          variant="outlined"
-          label="Checkboxes"
-          placeholder="Favorites"
-          fullWidth
-        />
+      renderInput={(params) => (
+        <TextField {...params} variant="outlined" label="Checkboxes" placeholder="Favorites" />
       )}
     />
   );
-}
-
-interface FilmOptionType {
-  title: string;
-  year: number;
 }
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top

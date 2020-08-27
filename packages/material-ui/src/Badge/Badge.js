@@ -1,13 +1,14 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { chainPropTypes } from '@material-ui/utils';
 import withStyles from '../styles/withStyles';
 import capitalize from '../utils/capitalize';
 
 const RADIUS_STANDARD = 10;
-const RADIUS_DOT = 3;
+const RADIUS_DOT = 4;
 
-export const styles = theme => ({
+export const styles = (theme) => ({
   /* Styles applied to the root element. */
   root: {
     position: 'relative',
@@ -34,8 +35,6 @@ export const styles = theme => ({
     padding: '0 6px',
     height: RADIUS_STANDARD * 2,
     borderRadius: RADIUS_STANDARD,
-    backgroundColor: theme.palette.color,
-    color: theme.palette.textColor,
     zIndex: 1, // Render the badge on top of potential ripples.
     transition: theme.transitions.create('transform', {
       easing: theme.transitions.easing.easeInOut,
@@ -59,12 +58,23 @@ export const styles = theme => ({
   },
   /* Styles applied to the root element if `variant="dot"`. */
   dot: {
+    borderRadius: RADIUS_DOT,
     height: RADIUS_DOT * 2,
     minWidth: RADIUS_DOT * 2,
     padding: 0,
   },
   /* Styles applied to the root element if `anchorOrigin={{ 'top', 'right' }} overlap="rectangle"`. */
   anchorOriginTopRightRectangle: {
+    top: 0,
+    right: 0,
+    transform: 'scale(1) translate(50%, -50%)',
+    transformOrigin: '100% 0%',
+    '&$invisible': {
+      transform: 'scale(0) translate(50%, -50%)',
+    },
+  },
+  /* Styles applied to the root element if `anchorOrigin={{ 'top', 'right' }} overlap="rectangular"`. */
+  anchorOriginTopRightRectangular: {
     top: 0,
     right: 0,
     transform: 'scale(1) translate(50%, -50%)',
@@ -83,8 +93,28 @@ export const styles = theme => ({
       transform: 'scale(0) translate(50%, 50%)',
     },
   },
+  /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'right' }} overlap="rectangular"`. */
+  anchorOriginBottomRightRectangular: {
+    bottom: 0,
+    right: 0,
+    transform: 'scale(1) translate(50%, 50%)',
+    transformOrigin: '100% 100%',
+    '&$invisible': {
+      transform: 'scale(0) translate(50%, 50%)',
+    },
+  },
   /* Styles applied to the root element if `anchorOrigin={{ 'top', 'left' }} overlap="rectangle"`. */
   anchorOriginTopLeftRectangle: {
+    top: 0,
+    left: 0,
+    transform: 'scale(1) translate(-50%, -50%)',
+    transformOrigin: '0% 0%',
+    '&$invisible': {
+      transform: 'scale(0) translate(-50%, -50%)',
+    },
+  },
+  /* Styles applied to the root element if `anchorOrigin={{ 'top', 'left' }} overlap="rectangular"`. */
+  anchorOriginTopLeftRectangular: {
     top: 0,
     left: 0,
     transform: 'scale(1) translate(-50%, -50%)',
@@ -103,8 +133,28 @@ export const styles = theme => ({
       transform: 'scale(0) translate(-50%, 50%)',
     },
   },
+  /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'left' }} overlap="rectangular"`. */
+  anchorOriginBottomLeftRectangular: {
+    bottom: 0,
+    left: 0,
+    transform: 'scale(1) translate(-50%, 50%)',
+    transformOrigin: '0% 100%',
+    '&$invisible': {
+      transform: 'scale(0) translate(-50%, 50%)',
+    },
+  },
   /* Styles applied to the root element if `anchorOrigin={{ 'top', 'right' }} overlap="circle"`. */
   anchorOriginTopRightCircle: {
+    top: '14%',
+    right: '14%',
+    transform: 'scale(1) translate(50%, -50%)',
+    transformOrigin: '100% 0%',
+    '&$invisible': {
+      transform: 'scale(0) translate(50%, -50%)',
+    },
+  },
+  /* Styles applied to the root element if `anchorOrigin={{ 'top', 'right' }} overlap="circular"`. */
+  anchorOriginTopRightCircular: {
     top: '14%',
     right: '14%',
     transform: 'scale(1) translate(50%, -50%)',
@@ -123,6 +173,16 @@ export const styles = theme => ({
       transform: 'scale(0) translate(50%, 50%)',
     },
   },
+  /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'right' }} overlap="circular"`. */
+  anchorOriginBottomRightCircular: {
+    bottom: '14%',
+    right: '14%',
+    transform: 'scale(1) translate(50%, 50%)',
+    transformOrigin: '100% 100%',
+    '&$invisible': {
+      transform: 'scale(0) translate(50%, 50%)',
+    },
+  },
   /* Styles applied to the root element if `anchorOrigin={{ 'top', 'left' }} overlap="circle"`. */
   anchorOriginTopLeftCircle: {
     top: '14%',
@@ -133,8 +193,28 @@ export const styles = theme => ({
       transform: 'scale(0) translate(-50%, -50%)',
     },
   },
+  /* Styles applied to the root element if `anchorOrigin={{ 'top', 'left' }} overlap="circular"`. */
+  anchorOriginTopLeftCircular: {
+    top: '14%',
+    left: '14%',
+    transform: 'scale(1) translate(-50%, -50%)',
+    transformOrigin: '0% 0%',
+    '&$invisible': {
+      transform: 'scale(0) translate(-50%, -50%)',
+    },
+  },
   /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'left' }} overlap="circle"`. */
   anchorOriginBottomLeftCircle: {
+    bottom: '14%',
+    left: '14%',
+    transform: 'scale(1) translate(-50%, 50%)',
+    transformOrigin: '0% 100%',
+    '&$invisible': {
+      transform: 'scale(0) translate(-50%, 50%)',
+    },
+  },
+  /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'left' }} overlap="circular"`. */
+  anchorOriginBottomLeftCircular: {
     bottom: '14%',
     left: '14%',
     transform: 'scale(1) translate(-50%, 50%)',
@@ -236,7 +316,34 @@ Badge.propTypes = {
    * Override or extend the styles applied to the component.
    * See [CSS API](#css) below for more details.
    */
-  classes: PropTypes.object,
+  classes: chainPropTypes(PropTypes.object, (props) => {
+    const { classes } = props;
+    if (classes == null) {
+      return null;
+    }
+
+    [
+      ['anchorOriginTopRightRectangle', 'anchorOriginTopRightRectangular'],
+      ['anchorOriginBottomRightRectangle', 'anchorOriginBottomRightRectangular'],
+      ['anchorOriginTopLeftRectangle', 'anchorOriginTopLeftRectangular'],
+      ['anchorOriginBottomLeftRectangle', 'anchorOriginBottomLeftRectangular'],
+      ['anchorOriginTopRightCircle', 'anchorOriginTopRightCircular'],
+      ['anchorOriginBottomRightCircle', 'anchorOriginBottomRightCircular'],
+      ['anchorOriginTopLeftCircle', 'anchorOriginTopLeftCircular'],
+    ].forEach(([deprecatedClassKey, newClassKey]) => {
+      if (
+        classes[deprecatedClassKey] != null &&
+        // 2 classnames? one from withStyles the other must be custom
+        classes[deprecatedClassKey].split(' ').length > 1
+      ) {
+        throw new Error(
+          `Material-UI: The \`${deprecatedClassKey}\` class was deprecated. Use \`${newClassKey}\` instead.`,
+        );
+      }
+    });
+
+    return null;
+  }),
   /**
    * @ignore
    */
@@ -247,9 +354,9 @@ Badge.propTypes = {
   color: PropTypes.oneOf(['default', 'error', 'primary', 'secondary']),
   /**
    * The component used for the root node.
-   * Either a string to use a DOM element or a component.
+   * Either a string to use a HTML element or a component.
    */
-  component: PropTypes.elementType,
+  component: PropTypes /* @typescript-to-proptypes-ignore */.elementType,
   /**
    * If `true`, the badge will be invisible.
    */
@@ -261,7 +368,26 @@ Badge.propTypes = {
   /**
    * Wrapped shape the badge should overlap.
    */
-  overlap: PropTypes.oneOf(['circle', 'rectangle']),
+  overlap: chainPropTypes(
+    PropTypes.oneOf(['circle', 'rectangle', 'circular', 'rectangular']),
+    (props) => {
+      const { overlap } = props;
+
+      if (overlap === 'rectangle') {
+        throw new Error(
+          'Material-UI: `overlap="rectangle"` was deprecated. Use `overlap="rectangular"` instead.',
+        );
+      }
+
+      if (overlap === 'circle') {
+        throw new Error(
+          'Material-UI: `overlap="circle"` was deprecated. Use `overlap="circular"` instead.',
+        );
+      }
+
+      return null;
+    },
+  ),
   /**
    * Controls whether the badge is hidden when `badgeContent` is zero.
    */

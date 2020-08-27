@@ -8,19 +8,10 @@ export default function DisabledOptions() {
     <Autocomplete
       id="disabled-options-demo"
       options={timeSlots}
-      getOptionDisabled={option => option === timeSlots[0] || option === timeSlots[2]}
+      getOptionDisabled={(option) => option === timeSlots[0] || option === timeSlots[2]}
       style={{ width: 300 }}
-      renderInput={params => (
-        <TextField
-          {...params}
-          label="Disabled options"
-          variant="outlined"
-          fullWidth
-          inputProps={{
-            ...params.inputProps,
-            autoComplete: 'disabled', // disable autocomplete and autofill
-          }}
-        />
+      renderInput={(params) => (
+        <TextField {...params} label="Disabled options" variant="outlined" />
       )}
     />
   );

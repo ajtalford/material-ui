@@ -34,7 +34,9 @@ const pages = [
         subheader: '/components/inputs',
         children: [
           { pathname: '/components/buttons' },
+          { pathname: '/components/button-group' },
           { pathname: '/components/checkboxes' },
+          { pathname: '/components/floating-action-button' },
           { pathname: '/components/pickers', title: 'Date / Time' },
           { pathname: '/components/radio-buttons' },
           { pathname: '/components/selects' },
@@ -42,7 +44,6 @@ const pages = [
           { pathname: '/components/switches' },
           { pathname: '/components/text-fields' },
           { pathname: '/components/transfer-list' },
-          { pathname: '/components/integrated-autocomplete' },
         ],
       },
       {
@@ -65,7 +66,7 @@ const pages = [
           { pathname: '/components/app-bar' },
           { pathname: '/components/paper' },
           { pathname: '/components/cards' },
-          { pathname: '/components/expansion-panels' },
+          { pathname: '/components/accordion' },
         ],
       },
       {
@@ -75,6 +76,7 @@ const pages = [
           { pathname: '/components/progress' },
           { pathname: '/components/dialogs' },
           { pathname: '/components/snackbars' },
+          { pathname: '/components/backdrop' },
         ],
       },
       {
@@ -114,10 +116,13 @@ const pages = [
         subheader: '/components/lab',
         children: [
           { pathname: '/components/about-the-lab' },
+          { pathname: '/components/alert' },
           { pathname: '/components/autocomplete' },
+          { pathname: '/components/pagination' },
           { pathname: '/components/rating' },
           { pathname: '/components/skeleton' },
           { pathname: '/components/speed-dial' },
+          { pathname: '/components/timeline' },
           { pathname: '/components/toggle-button' },
           { pathname: '/components/tree-view' },
         ],
@@ -154,9 +159,9 @@ const pages = [
     children: [
       {
         pathname: '/customization',
-        subheader: '/customization/theming',
+        subheader: '/customization/theme',
         children: [
-          { pathname: '/customization/theming', title: 'Overview' },
+          { pathname: '/customization/theming' },
           { pathname: '/customization/palette' },
           { pathname: '/customization/typography' },
           { pathname: '/customization/spacing' },
@@ -184,17 +189,18 @@ const pages = [
       { pathname: '/guides/migration-v3', title: 'Migration From v3' },
       { pathname: '/guides/migration-v0x', title: 'Migration From v0.x' },
       { pathname: '/guides/testing' },
+      { pathname: '/guides/localization' },
       { pathname: '/guides/right-to-left', title: 'Right-to-left' },
       { pathname: '/guides/flow' },
     ],
   },
   {
-    pathname: 'https://themes.material-ui.com/',
-    title: 'Premium Themes',
+    pathname: 'https://material-ui.com/store/',
+    title: 'Premium themes',
     linkProps: {
-      'data-ga-event-category': 'premium-themes',
+      'data-ga-event-category': 'store',
       'data-ga-event-action': 'click',
-      'data-ga-event-label': 'sidenav-link',
+      'data-ga-event-label': 'sidenav',
     },
   },
   {
@@ -208,33 +214,11 @@ const pages = [
       { pathname: '/discover-more/team' },
       { pathname: '/discover-more/changelog' },
       { pathname: '/discover-more/languages' },
-      { pathname: '/discover-more/governance' },
     ],
   },
-  {
-    pathname: '/blog',
-    children: [
-      { pathname: '/blog/october-2019-update' },
-      { pathname: '/blog/september-2019-update' },
-      { pathname: '/blog/august-2019-update' },
-      { pathname: '/blog/july-2019-update' },
-      { pathname: '/blog/june-2019-update' },
-      { pathname: '/blog/may-2019-update' },
-      {
-        pathname: '/blog/material-ui-v4-is-out',
-        title: 'Material-UI v4 is out',
-      },
-      { pathname: '/blog/april-2019-update' },
-      { pathname: '/blog/march-2019-update' },
-      { pathname: '/blog/2019-developer-survey-results' },
-      {
-        pathname: '/blog/material-ui-v1-is-out',
-        title: 'Material-UI v1 is out',
-      },
-    ],
-  },
-  { pathname: '/versions', displayNav: false },
-  { pathname: '/', displayNav: false, title: false },
+  { pathname: '/versions', disableNav: true },
+  { pathname: '/', displayNav: false, disableDrawer: true },
+  { pathname: 'https://medium.com/material-ui', title: 'Blog' },
 ];
 
 export default pages;

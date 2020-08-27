@@ -1,15 +1,17 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import withStyles from '../styles/withStyles';
 import { duration } from '../styles/transitions';
 import ClickAwayListener from '../ClickAwayListener';
+import useEventCallback from '../utils/useEventCallback';
 import capitalize from '../utils/capitalize';
 import createChainedFunction from '../utils/createChainedFunction';
+import deprecatedPropType from '../utils/deprecatedPropType';
 import Grow from '../Grow';
 import SnackbarContent from '../SnackbarContent';
 
-export const styles = theme => {
+export const styles = (theme) => {
   const top1 = { top: 8 };
   const bottom1 = { bottom: 8 };
   const right = { justifyContent: 'flex-end' };
@@ -98,7 +100,7 @@ const Snackbar = React.forwardRef(function Snackbar(props, ref) {
   const {
     action,
     anchorOrigin: { vertical, horizontal } = { vertical: 'bottom', horizontal: 'center' },
-    autoHideDuration,
+    autoHideDuration = null,
     children,
     classes,
     className,
@@ -129,38 +131,32 @@ const Snackbar = React.forwardRef(function Snackbar(props, ref) {
   const timerAutoHide = React.useRef();
   const [exited, setExited] = React.useState(true);
 
-  // Timer that controls delay before snackbar auto hides
-  const setAutoHideTimer = React.useCallback(
-    autoHideDurationParam => {
-      const autoHideDurationBefore =
-        autoHideDurationParam != null ? autoHideDurationParam : autoHideDuration;
+  const handleClose = useEventCallback((...args) => {
+    if (onClose) {
+      onClose(...args);
+    }
+  });
 
-      if (!onClose || autoHideDurationBefore == null) {
-        return;
-      }
+  const setAutoHideTimer = useEventCallback((autoHideDurationParam) => {
+    if (!onClose || autoHideDurationParam == null) {
+      return;
+    }
 
-      clearTimeout(timerAutoHide.current);
-      timerAutoHide.current = setTimeout(() => {
-        const autoHideDurationAfter =
-          autoHideDurationParam != null ? autoHideDurationParam : autoHideDuration;
-        if (!onClose || autoHideDurationAfter == null) {
-          return;
-        }
-        onClose(null, 'timeout');
-      }, autoHideDurationBefore);
-    },
-    [autoHideDuration, onClose],
-  );
+    clearTimeout(timerAutoHide.current);
+    timerAutoHide.current = setTimeout(() => {
+      handleClose(null, 'timeout');
+    }, autoHideDurationParam);
+  });
 
   React.useEffect(() => {
     if (open) {
-      setAutoHideTimer();
+      setAutoHideTimer(autoHideDuration);
     }
 
     return () => {
       clearTimeout(timerAutoHide.current);
     };
-  }, [open, setAutoHideTimer]);
+  }, [open, autoHideDuration, setAutoHideTimer]);
 
   // Pause the timer when the user is interacting with the Snackbar
   // or when the user hide the window.
@@ -172,29 +168,25 @@ const Snackbar = React.forwardRef(function Snackbar(props, ref) {
   // or when the window is shown back.
   const handleResume = React.useCallback(() => {
     if (autoHideDuration != null) {
-      if (resumeHideDuration != null) {
-        setAutoHideTimer(resumeHideDuration);
-        return;
-      }
-      setAutoHideTimer(autoHideDuration * 0.5);
+      setAutoHideTimer(resumeHideDuration != null ? resumeHideDuration : autoHideDuration * 0.5);
     }
   }, [autoHideDuration, resumeHideDuration, setAutoHideTimer]);
 
-  const handleMouseEnter = event => {
+  const handleMouseEnter = (event) => {
     if (onMouseEnter) {
       onMouseEnter(event);
     }
     handlePause();
   };
 
-  const handleMouseLeave = event => {
+  const handleMouseLeave = (event) => {
     if (onMouseLeave) {
       onMouseLeave(event);
     }
     handleResume();
   };
 
-  const handleClickAway = event => {
+  const handleClickAway = (event) => {
     if (onClose) {
       onClose(event, 'clickaway');
     }
@@ -261,16 +253,20 @@ const Snackbar = React.forwardRef(function Snackbar(props, ref) {
 });
 
 Snackbar.propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |     To update them edit the d.ts file and run "yarn proptypes"     |
+  // ----------------------------------------------------------------------
   /**
-   * The action to display.
+   * The action to display. It renders after the message, at the end of the snackbar.
    */
   action: PropTypes.node,
   /**
    * The anchor of the `Snackbar`.
    */
   anchorOrigin: PropTypes.shape({
-    horizontal: PropTypes.oneOf(['left', 'center', 'right']).isRequired,
-    vertical: PropTypes.oneOf(['top', 'bottom']).isRequired,
+    horizontal: PropTypes.oneOf(['center', 'left', 'right']).isRequired,
+    vertical: PropTypes.oneOf(['bottom', 'top']).isRequired,
   }),
   /**
    * The number of milliseconds to wait before automatically calling the
@@ -287,7 +283,7 @@ Snackbar.propTypes = {
    * Override or extend the styles applied to the component.
    * See [CSS API](#css) below for more details.
    */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   /**
    * @ignore
    */
@@ -323,33 +319,33 @@ Snackbar.propTypes = {
    * for example ignoring `clickaway`.
    *
    * @param {object} event The event source of the callback.
-   * @param {string} reason Can be:`"timeout"` (`autoHideDuration` expired) or: `"clickaway"`.
+   * @param {string} reason Can be: `"timeout"` (`autoHideDuration` expired), `"clickaway"`.
    */
   onClose: PropTypes.func,
   /**
    * Callback fired before the transition is entering.
    */
-  onEnter: PropTypes.func,
+  onEnter: deprecatedPropType(PropTypes.func, 'Use the `TransitionProps` prop instead.'),
   /**
    * Callback fired when the transition has entered.
    */
-  onEntered: PropTypes.func,
+  onEntered: deprecatedPropType(PropTypes.func, 'Use the `TransitionProps` prop instead.'),
   /**
    * Callback fired when the transition is entering.
    */
-  onEntering: PropTypes.func,
+  onEntering: deprecatedPropType(PropTypes.func, 'Use the `TransitionProps` prop instead.'),
   /**
    * Callback fired before the transition is exiting.
    */
-  onExit: PropTypes.func,
+  onExit: deprecatedPropType(PropTypes.func, 'Use the `TransitionProps` prop instead.'),
   /**
    * Callback fired when the transition has exited.
    */
-  onExited: PropTypes.func,
+  onExited: deprecatedPropType(PropTypes.func, 'Use the `TransitionProps` prop instead.'),
   /**
    * Callback fired when the transition is exiting.
    */
-  onExiting: PropTypes.func,
+  onExiting: deprecatedPropType(PropTypes.func, 'Use the `TransitionProps` prop instead.'),
   /**
    * @ignore
    */
@@ -359,7 +355,7 @@ Snackbar.propTypes = {
    */
   onMouseLeave: PropTypes.func,
   /**
-   * If true, `Snackbar` is open.
+   * If `true`, `Snackbar` is open.
    */
   open: PropTypes.bool,
   /**
@@ -371,6 +367,7 @@ Snackbar.propTypes = {
   resumeHideDuration: PropTypes.number,
   /**
    * The component used for the transition.
+   * [Follow this guide](/components/transitions/#transitioncomponent-prop) to learn more about the requirements for this component.
    */
   TransitionComponent: PropTypes.elementType,
   /**
@@ -379,10 +376,14 @@ Snackbar.propTypes = {
    */
   transitionDuration: PropTypes.oneOfType([
     PropTypes.number,
-    PropTypes.shape({ enter: PropTypes.number, exit: PropTypes.number }),
+    PropTypes.shape({
+      appear: PropTypes.number,
+      enter: PropTypes.number,
+      exit: PropTypes.number,
+    }),
   ]),
   /**
-   * Props applied to the `Transition` element.
+   * Props applied to the [`Transition`](http://reactcommunity.org/react-transition-group/transition#Transition-props) element.
    */
   TransitionProps: PropTypes.object,
 };

@@ -28,7 +28,7 @@ ReactDOM.render(<App />, document.querySelector('#app'));
 
 Oui, c'est tout ce dont vous avez besoin pour commencer, comme vous pouvez le voir dans cette démo en direct et interactive :
 
-{{"demo": "pages/getting-started/usage/Usage.js", "hideHeader": true}}
+{{"demo": "pages/getting-started/usage/Usage.js", "hideToolbar": true, "bg": true}}
 
 ## Variables globales
 
@@ -36,12 +36,12 @@ L'expérience d'utilisation de Material-UI peut être améliorée avec une poign
 
 ### La balise meta responsive design (vue adaptative)
 
-Material-UI is developed mobile-first, a strategy in which we first write code for mobile devices, and then scale up components as necessary using CSS media queries. Pour que le rendu et le zoom tactile soient corrects pour tous les périphériques, ajoutez la balise meta viewport à votre élément `<head>`.
+Pour que le rendu et le zoom tactile soient corrects pour tous les périphériques, ajoutez la balise meta viewport à votre élément `<head>`. Material-UI is developed mobile-first, a strategy in which we first write code for mobile devices, and then scale up components as necessary using CSS media queries.
 
 ```html
 <meta
   name="viewport"
-  content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+  content="minimum-scale=1, initial-scale=1, width=device-width"
 />
 ```
 
@@ -51,12 +51,12 @@ Material-UI fournit un composant [CssBaseline](/components/css-baseline/) facult
 
 ## Documentation versionnée
 
-Cette documentation reflète toujours la dernière version stable de Material-UI. You can find older versions of the documentation on a [separate page](https://material-ui.com/versions/).
+Cette documentation reflète toujours la dernière version stable de Material-UI. Vous pouvez trouver les anciennes versions de la documentation sur une [page séparée](https://material-ui.com/versions/).
 
 ## Etapes suivantes
 
 Maintenant que vous avez une idée de la configuration de base, il est temps d'en apprendre d'avantage sur :
 
 - Comment fournir [la police et la typographie Material Design](/components/typography/) .
-- How to take advantage of the [theming solution](/customization/theming/).
+- Comment tirer parti de la [solution de thème](/customization/theming/).
 - Comment [modifier](/customization/components/), l'apparence des composants.

@@ -1,4 +1,4 @@
-# Sizing
+# Dimensionamiento
 
 <p class="description">Easily make an element as wide or as tall (relative to its parent) with the width and height utilities.</p>
 
@@ -52,3 +52,4 @@ import { sizing } from '@material-ui/system';
 | `height`          | `height`    | `height`      | none           |
 | `maxHeight`       | `maxHeight` | `max-height`  | none           |
 | `minHeight`       | `minHeight` | `min-height`  | none           |
+| `boxSizing`       | `boxSizing` | `box-sizing`  | none           |

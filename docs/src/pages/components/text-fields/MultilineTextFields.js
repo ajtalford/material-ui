@@ -2,15 +2,12 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing(1),
-    marginRight: theme.spacing(1),
-    width: 200,
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
   },
 }));
 
@@ -18,39 +15,33 @@ export default function MultilineTextFields() {
   const classes = useStyles();
   const [value, setValue] = React.useState('Controlled');
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   return (
-    <form className={classes.container} noValidate autoComplete="off">
+    <form className={classes.root} noValidate autoComplete="off">
       <div>
         <TextField
           id="standard-multiline-flexible"
           label="Multiline"
           multiline
-          rowsMax="4"
+          rowsMax={4}
           value={value}
           onChange={handleChange}
-          className={classes.textField}
-          margin="normal"
         />
         <TextField
           id="standard-textarea"
           label="Multiline Placeholder"
           placeholder="Placeholder"
           multiline
-          className={classes.textField}
-          margin="normal"
         />
         <TextField
           id="standard-multiline-static"
           label="Multiline"
           multiline
-          rows="4"
+          rows={4}
           defaultValue="Default Value"
-          className={classes.textField}
-          margin="normal"
         />
       </div>
       <div>
@@ -58,11 +49,9 @@ export default function MultilineTextFields() {
           id="filled-multiline-flexible"
           label="Multiline"
           multiline
-          rowsMax="4"
+          rowsMax={4}
           value={value}
           onChange={handleChange}
-          className={classes.textField}
-          margin="normal"
           variant="filled"
         />
         <TextField
@@ -70,18 +59,14 @@ export default function MultilineTextFields() {
           label="Multiline Placeholder"
           placeholder="Placeholder"
           multiline
-          className={classes.textField}
-          margin="normal"
           variant="filled"
         />
         <TextField
           id="filled-multiline-static"
           label="Multiline"
           multiline
-          rows="4"
+          rows={4}
           defaultValue="Default Value"
-          className={classes.textField}
-          margin="normal"
           variant="filled"
         />
       </div>
@@ -90,11 +75,9 @@ export default function MultilineTextFields() {
           id="outlined-multiline-flexible"
           label="Multiline"
           multiline
-          rowsMax="4"
+          rowsMax={4}
           value={value}
           onChange={handleChange}
-          className={classes.textField}
-          margin="normal"
           variant="outlined"
         />
         <TextField
@@ -102,18 +85,14 @@ export default function MultilineTextFields() {
           label="Multiline Placeholder"
           placeholder="Placeholder"
           multiline
-          className={classes.textField}
-          margin="normal"
           variant="outlined"
         />
         <TextField
           id="outlined-multiline-static"
           label="Multiline"
           multiline
-          rows="4"
+          rows={4}
           defaultValue="Default Value"
-          className={classes.textField}
-          margin="normal"
           variant="outlined"
         />
       </div>

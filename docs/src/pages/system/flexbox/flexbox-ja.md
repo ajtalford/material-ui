@@ -1,6 +1,6 @@
 # Flexbox
 
-<p class="description">Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities.</p>
+<p class="description">レスポンシブなflexboxユーティリティのフルスイートを使用して、グリッドカラム、ナビゲーション、コンポーネントなどのレイアウト、整列、サイズ調整をすばやく管理できます。</p>
 
 **flexboxに不慣れ**な場合、 [CSS-Tricks flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) を読むことをおすすめします。
 
@@ -8,7 +8,7 @@
 
 ### display
 
-{{"demo": "pages/system/flexbox/Display.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/Display.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box display="flex">…
@@ -16,7 +16,7 @@
 
 ### flex-direction
 
-{{"demo": "pages/system/flexbox/FlexDirection.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/FlexDirection.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box flexDirection="row">…
@@ -25,7 +25,7 @@
 
 ### flex-wrap
 
-{{"demo": "pages/system/flexbox/FlexWrap.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/FlexWrap.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box flexWrap="nowrap">…
@@ -34,7 +34,7 @@
 
 ### justify-content
 
-{{"demo": "pages/system/flexbox/JustifyContent.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/JustifyContent.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box justifyContent="flex-start">…
@@ -44,7 +44,7 @@
 
 ### align-items
 
-{{"demo": "pages/system/flexbox/AlignItems.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/AlignItems.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box alignItems="flex-start">…
@@ -54,7 +54,7 @@
 
 ### align-content
 
-{{"demo": "pages/system/flexbox/AlignContent.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/AlignContent.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box alignContent="flex-start">…
@@ -65,7 +65,7 @@
 
 ### order
 
-{{"demo": "pages/system/flexbox/Order.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/Order.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box order={2}>Item 1</Box>
@@ -75,7 +75,7 @@
 
 ### flex-grow
 
-{{"demo": "pages/system/flexbox/FlexGrow.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/FlexGrow.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box flexGrow={1}>Item 1</Box>
@@ -85,7 +85,7 @@
 
 ### flex-shrink
 
-{{"demo": "pages/system/flexbox/FlexShrink.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/FlexShrink.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box width="100%">Item 1</Box>
@@ -95,7 +95,7 @@
 
 ### align-self
 
-{{"demo": "pages/system/flexbox/AlignSelf.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/AlignSelf.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box>Item 1</Box>

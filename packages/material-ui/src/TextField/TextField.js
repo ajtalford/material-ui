@@ -1,5 +1,4 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { refType } from '@material-ui/utils';
@@ -93,16 +92,6 @@ const TextField = React.forwardRef(function TextField(props, ref) {
     ...other
   } = props;
 
-  const [labelWidth, setLabelWidth] = React.useState(0);
-  const labelRef = React.useRef(null);
-  React.useEffect(() => {
-    if (variant === 'outlined') {
-      // #StrictMode ready
-      const labelNode = ReactDOM.findDOMNode(labelRef.current);
-      setLabelWidth(labelNode != null ? labelNode.offsetWidth : 0);
-    }
-  }, [variant, required, label]);
-
   if (process.env.NODE_ENV !== 'production') {
     if (select && !children) {
       console.error(
@@ -117,8 +106,15 @@ const TextField = React.forwardRef(function TextField(props, ref) {
     if (InputLabelProps && typeof InputLabelProps.shrink !== 'undefined') {
       InputMore.notched = InputLabelProps.shrink;
     }
-
-    InputMore.labelWidth = labelWidth;
+    if (label) {
+      const displayRequired = InputLabelProps?.required ?? required;
+      InputMore.label = (
+        <React.Fragment>
+          {label}
+          {displayRequired && '\u00a0*'}
+        </React.Fragment>
+      );
+    }
   }
   if (select) {
     // unset defaults from textbox inputs
@@ -170,10 +166,11 @@ const TextField = React.forwardRef(function TextField(props, ref) {
       {...other}
     >
       {label && (
-        <InputLabel htmlFor={id} ref={labelRef} id={inputLabelId} {...InputLabelProps}>
+        <InputLabel htmlFor={id} id={inputLabelId} {...InputLabelProps}>
           {label}
         </InputLabel>
       )}
+
       {select ? (
         <Select
           aria-describedby={helperTextId}
@@ -188,6 +185,7 @@ const TextField = React.forwardRef(function TextField(props, ref) {
       ) : (
         InputElement
       )}
+
       {helperText && (
         <FormHelperText id={helperTextId} {...FormHelperTextProps}>
           {helperText}
@@ -198,6 +196,10 @@ const TextField = React.forwardRef(function TextField(props, ref) {
 });
 
 TextField.propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |     To update them edit the d.ts file and run "yarn proptypes"     |
+  // ----------------------------------------------------------------------
   /**
    * This prop helps users to fill forms faster, especially on mobile devices.
    * The name can be confusing, as it's more like an autofill.
@@ -216,7 +218,7 @@ TextField.propTypes = {
    * Override or extend the styles applied to the component.
    * See [CSS API](#css) below for more details.
    */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   /**
    * @ignore
    */
@@ -263,16 +265,16 @@ TextField.propTypes = {
    */
   InputLabelProps: PropTypes.object,
   /**
+   * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
+   */
+  inputProps: PropTypes.object,
+  /**
    * Props applied to the Input element.
    * It will be a [`FilledInput`](/api/filled-input/),
    * [`OutlinedInput`](/api/outlined-input/) or [`Input`](/api/input/)
    * component depending on the `variant` prop value.
    */
   InputProps: PropTypes.object,
-  /**
-   * [Attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Attributes) applied to the `input` element.
-   */
-  inputProps: PropTypes.object,
   /**
    * Pass a ref to the `input` element.
    */
@@ -284,7 +286,7 @@ TextField.propTypes = {
   /**
    * If `dense` or `normal`, will adjust vertical spacing of this and contained components.
    */
-  margin: PropTypes.oneOf(['none', 'dense', 'normal']),
+  margin: PropTypes.oneOf(['dense', 'none', 'normal']),
   /**
    * If `true`, a textarea element will be rendered instead of an input.
    */
@@ -319,11 +321,11 @@ TextField.propTypes = {
   /**
    * Number of rows to display when multiline option is set to true.
    */
-  rows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  rows: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /**
    * Maximum number of rows to display when multiline option is set to true.
    */
-  rowsMax: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  rowsMax: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   /**
    * Render a [`Select`](/api/select/) element while passing the Input element to `Select` as `input` parameter.
    * If this option is set you must pass the options of the select as children.
@@ -333,6 +335,10 @@ TextField.propTypes = {
    * Props applied to the [`Select`](/api/select/) element.
    */
   SelectProps: PropTypes.object,
+  /**
+   * The size of the text field.
+   */
+  size: PropTypes.oneOf(['medium', 'small']),
   /**
    * Type of the `input` element. It should be [a valid HTML5 input type](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#Form_%3Cinput%3E_types).
    */
@@ -344,7 +350,7 @@ TextField.propTypes = {
   /**
    * The variant to use.
    */
-  variant: PropTypes.oneOf(['standard', 'outlined', 'filled']),
+  variant: PropTypes.oneOf(['filled', 'outlined', 'standard']),
 };
 
 export default withStyles(styles, { name: 'MuiTextField' })(TextField);

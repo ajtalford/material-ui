@@ -12,7 +12,7 @@ import jss, { getDynamicStyles } from 'jss';
 import Box from '@material-ui/core/Box';
 
 const suite = new Benchmark.Suite('styles', {
-  onError: event => {
+  onError: (event) => {
     console.log(event.target.error);
   },
 });
@@ -24,7 +24,7 @@ align-items: center;
 justify-content: center;
 position: relative;
 background-color: transparent;
-outline: none;
+outline: 0;
 border: 0;
 margin: 0;
 border-radius: 0;
@@ -65,11 +65,11 @@ const emotionCss = css`
   ${cssContent}
 `;
 
-const JSSButton = injectSheet(cssObject)(props => (
+const JSSButton = injectSheet(cssObject)((props) => (
   <button type="button" className={props.classes.root} {...props} />
 ));
 
-const WithStylesButton = withStyles(cssObject)(props => (
+const WithStylesButton = withStyles(cssObject)((props) => (
   <button type="submit" className={props.classes.root} {...props} />
 ));
 
@@ -84,8 +84,8 @@ function HookButton(props) {
   return <button type="button" className={classes.root} {...props} />;
 }
 
-const NakedButton = props => <button type="submit" {...props} />;
-const EmotionCssButton = props => <button type="submit" css={emotionCss} {...props} />;
+const NakedButton = (props) => <button type="submit" {...props} />;
+const EmotionCssButton = (props) => <button type="submit" css={emotionCss} {...props} />;
 
 suite
   .add('StyledMuiButton', () => {
@@ -128,7 +128,8 @@ suite
       const dynamicSheet = jss.createStyleSheet(dynamicStyles, {
         link: true,
       });
-      dynamicSheet.update({}).attach();
+      dynamicSheet.update({});
+      dynamicSheet.attach();
       sheetsRegistry.add(dynamicSheet);
     }
 
@@ -229,7 +230,7 @@ suite
       </StylesProvider>,
     );
   })
-  .on('cycle', event => {
+  .on('cycle', (event) => {
     console.log(String(event.target));
   })
   .run();

@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react';
 import clsx from 'clsx';
 import withStyles from '../styles/withStyles';
 
-const styles = theme => ({
+const styles = (theme) => ({
   thumb: {
     '&$open': {
       '& $offset': {
@@ -20,7 +20,6 @@ const styles = theme => ({
       duration: theme.transitions.duration.shortest,
     }),
     top: -34,
-    left: 'calc(-50% + -4px)',
     transformOrigin: 'bottom center',
     transform: 'scale(0)',
     position: 'absolute',

@@ -11,7 +11,7 @@ function titleize(string) {
 
   return string
     .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
 
@@ -58,10 +58,10 @@ const packagesWithBundledTypes = ['@material-ui/core', '@material-ui/lab'];
  */
 function addTypeDeps(deps) {
   const packagesWithDTPackage = Object.keys(deps).filter(
-    name => packagesWithBundledTypes.indexOf(name) === -1,
+    (name) => packagesWithBundledTypes.indexOf(name) === -1,
   );
 
-  packagesWithDTPackage.forEach(name => {
+  packagesWithDTPackage.forEach((name) => {
     let resolvedName = name;
     // scoped package?
     if (name.startsWith('@')) {
@@ -79,8 +79,26 @@ function includePeerDependencies(deps, versions) {
     react: versions.react,
   });
 
-  if (deps['@material-ui/lab'] && !deps['@material-ui/core']) {
+  if (
+    deps['@material-ui/lab'] ||
+    deps['@material-ui/pickers'] ||
+    deps['@material-ui/x'] ||
+    deps['@material-ui/x-grid'] ||
+    deps['@material-ui/x-pickers'] ||
+    deps['@material-ui/x-tree-view'] ||
+    deps['@material-ui/data-grid']
+  ) {
     deps['@material-ui/core'] = versions['@material-ui/core'];
+  }
+
+  if (deps['@material-ui/x-data-grid-generator']) {
+    deps['@material-ui/core'] = versions['@material-ui/core'];
+    deps['@material-ui/icons'] = versions['@material-ui/icons'];
+    deps['@material-ui/lab'] = versions['@material-ui/lab'];
+  }
+
+  if (deps['@material-ui/pickers']) {
+    deps['date-fns'] = 'latest';
   }
 }
 
@@ -104,9 +122,8 @@ function getDependencies(raw, options = {}) {
     '@material-ui/styles': 'latest',
     '@material-ui/system': 'latest',
     '@material-ui/utils': 'latest',
-    'date-fns': 'next',
-    jss: 'next',
-    'jss-plugin-template': 'next',
+    // TODO: remove once @material-ui/pickers v4 is released.
+    '@date-io/date-fns': 'v1',
   };
 
   const re = /^import\s'([^']+)'|import\s[\s\S]*?\sfrom\s+'([^']+)/gm;

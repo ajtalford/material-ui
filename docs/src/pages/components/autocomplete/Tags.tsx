@@ -1,26 +1,38 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
 import Chip from '@material-ui/core/Chip';
-import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      width: 500,
+      '& > * + *': {
+        marginTop: theme.spacing(3),
+      },
+    },
+  }),
+);
 
 export default function Tags() {
+  const classes = useStyles();
+
   return (
-    <div style={{ width: 500 }}>
+    <div className={classes.root}>
       <Autocomplete
         multiple
         id="tags-standard"
         options={top100Films}
-        getOptionLabel={(option: FilmOptionType) => option.title}
+        getOptionLabel={(option) => option.title}
         defaultValue={[top100Films[13]]}
-        renderInput={params => (
+        renderInput={(params) => (
           <TextField
             {...params}
             variant="standard"
             label="Multiple values"
             placeholder="Favorites"
-            margin="normal"
-            fullWidth
           />
         )}
       />
@@ -28,24 +40,22 @@ export default function Tags() {
         multiple
         id="tags-outlined"
         options={top100Films}
-        getOptionLabel={(option: FilmOptionType) => option.title}
+        getOptionLabel={(option) => option.title}
         defaultValue={[top100Films[13]]}
         filterSelectedOptions
-        renderInput={params => (
+        renderInput={(params) => (
           <TextField
             {...params}
             variant="outlined"
             label="filterSelectedOptions"
             placeholder="Favorites"
-            margin="normal"
-            fullWidth
           />
         )}
       />
       <Autocomplete
         multiple
         id="tags-filled"
-        options={top100Films.map(option => option.title)}
+        options={top100Films.map((option) => option.title)}
         defaultValue={[top100Films[13].title]}
         freeSolo
         renderTags={(value: string[], getTagProps) =>
@@ -53,24 +63,12 @@ export default function Tags() {
             <Chip variant="outlined" label={option} {...getTagProps({ index })} />
           ))
         }
-        renderInput={params => (
-          <TextField
-            {...params}
-            variant="filled"
-            label="freeSolo"
-            placeholder="Favorites"
-            margin="normal"
-            fullWidth
-          />
+        renderInput={(params) => (
+          <TextField {...params} variant="filled" label="freeSolo" placeholder="Favorites" />
         )}
       />
     </div>
   );
-}
-
-interface FilmOptionType {
-  title: string;
-  year: number;
 }
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top

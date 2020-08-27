@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
 import { useFakeTimers } from 'sinon';
 import { createClientRender, fireEvent } from 'test/utils/createClientRender';
@@ -15,7 +15,7 @@ describe('<Select> integration', () => {
   describe('with Dialog', () => {
     function SelectAndDialog() {
       const [value, setValue] = React.useState(10);
-      const handleChange = event => {
+      const handleChange = (event) => {
         setValue(Number(event.target.value));
       };
 
@@ -58,57 +58,67 @@ describe('<Select> integration', () => {
       const trigger = getByRole('button');
       // Let's open the select component
       // in the browser user click also focuses
-      trigger.focus();
-      trigger.click();
+      fireEvent.mouseDown(trigger);
 
       const options = getAllByRole('option');
-      expect(options[1]).to.have.focus;
+      expect(options[1]).toHaveFocus();
 
       // Now, let's close the select component
       getByTestId('select-backdrop').click();
       clock.tick(0);
 
-      expect(queryByRole('listbox')).to.be.null;
-      expect(trigger).to.have.focus;
+      expect(queryByRole('listbox')).to.equal(null);
+      expect(trigger).toHaveFocus();
     });
 
     it('should be able to change the selected item', () => {
       const { getAllByRole, getByRole, queryByRole } = render(<SelectAndDialog />);
 
       const trigger = getByRole('button');
-      // basically this is a combined query getByRole('button', { name: 'Ten' })
-      // but we arent' there yet
-      expect(trigger).to.have.text('Ten');
+      expect(trigger).toHaveAccessibleName('Ten');
       // Let's open the select component
       // in the browser user click also focuses
-      trigger.focus();
-      trigger.click();
+      fireEvent.mouseDown(trigger);
 
       const options = getAllByRole('option');
-      expect(options[1]).to.have.focus;
+      expect(options[1]).toHaveFocus();
 
       // Now, let's close the select component
       options[2].click();
       clock.tick(0);
 
-      expect(queryByRole('listbox')).to.be.null;
-      expect(trigger).to.have.focus;
+      expect(queryByRole('listbox')).to.equal(null);
+      expect(trigger).toHaveFocus();
       expect(trigger).to.have.text('Twenty');
     });
   });
 
   describe('with label', () => {
+    it('requires `id` and `labelId` for a proper accessible name', () => {
+      const { getByRole } = render(
+        <FormControl>
+          <InputLabel id="label">Age</InputLabel>
+          <Select id="input" labelId="label" value="10">
+            <MenuItem value="">none</MenuItem>
+            <MenuItem value="10">Ten</MenuItem>
+          </Select>
+        </FormControl>,
+      );
+
+      expect(getByRole('button')).toHaveAccessibleName('Age Ten');
+    });
+
     // we're somewhat abusing "focus" here. What we're actually interested in is
     // displaying it as "active". WAI-ARIA authoring practices do not consider the
     // the trigger part of the widget while a native <select /> will outline the trigger
     // as well
     it('is displayed as focused while open', () => {
-      const { container, getByRole } = render(
+      const { getByTestId, getByRole } = render(
         <FormControl>
-          <InputLabel classes={{ focused: 'focused-label' }} htmlFor="age-simple">
+          <InputLabel classes={{ focused: 'focused-label' }} data-testid="label">
             Age
           </InputLabel>
-          <Select inputProps={{ id: 'age' }} value="">
+          <Select value="">
             <MenuItem value="">none</MenuItem>
             <MenuItem value={10}>Ten</MenuItem>
           </Select>
@@ -117,9 +127,9 @@ describe('<Select> integration', () => {
 
       const trigger = getByRole('button');
       trigger.focus();
-      fireEvent.keyDown(document.activeElement, { key: 'Enter' });
+      fireEvent.keyDown(trigger, { key: 'Enter' });
 
-      expect(container.querySelector('[for="age-simple"]')).to.have.class('focused-label');
+      expect(getByTestId('label')).to.have.class('focused-label');
     });
 
     it('does not stays in an active state if an open action did not actually open', () => {
@@ -137,16 +147,17 @@ describe('<Select> integration', () => {
           </Select>
         </FormControl>,
       );
+      const trigger = getByRole('button');
 
-      getByRole('button').focus();
-
-      expect(container.querySelector('[for="age-simple"]')).to.have.class('focused-label');
-
-      fireEvent.keyDown(document.activeElement, { key: 'Enter' });
+      trigger.focus();
 
       expect(container.querySelector('[for="age-simple"]')).to.have.class('focused-label');
 
-      getByRole('button').blur();
+      fireEvent.keyDown(trigger, { key: 'Enter' });
+
+      expect(container.querySelector('[for="age-simple"]')).to.have.class('focused-label');
+
+      trigger.blur();
 
       expect(container.querySelector('[for="age-simple"]')).not.to.have.class('focused-label');
     });

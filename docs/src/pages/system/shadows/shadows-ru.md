@@ -1,10 +1,12 @@
-# Shadows
+# Тени
 
-<p class="description">Add or remove shadows to elements with box-shadow utilities.</p>
+<p class="description">Добавление или удаление теней для элементов с утилитами box-shadow.</p>
 
 ## Пример
 
-{{"demo": "pages/system/shadows/Demo.js", "defaultCodeOpen": false}}
+The helpers allow you to control relative depth, or distance, between two surfaces along the z-axis. By default, there is 25 elevation levels.
+
+{{"demo": "pages/system/shadows/Demo.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box boxShadow={0}>…

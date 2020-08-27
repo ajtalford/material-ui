@@ -210,7 +210,7 @@ const Box = styled.div`
 />
 
 /**
- * Outputs:
+ * Saídas:
  *
  * padding: 16px;
  * @media (min-width: 600px) {
@@ -234,7 +234,7 @@ Not all CSS properties are supported. It's possible that you want to support new
 
 #### Аргументы
 
-1. `options` (*Object*): 
+1. `варианты` (*объекта*): 
   - `options.prop` (*String*): The property the style function will be triggered on.
   - `options.cssProperty` (*String|Boolean* [optional]): Defaults to `options.prop`. The CSS property used. You can disabled this option by providing `false`. When disabled, the property value will handle as a style object on it's own. It can be used for [rendering variants](#variants).
   - `options.themeKey` (*String* [optional]): The theme path prefix.
@@ -314,7 +314,7 @@ The `style()` helper can also be used to maps properties to style objects in a t
 
 ## Свойство CSS
 
-If you want to support custom CSS values, you can use the `css()` helper. It will process the `css` property.
+It will process the `css` property. If you want to support custom CSS values, you can use the `css()` helper.
 
 {{"demo": "pages/system/basics/CssProp.js", "defaultCodeOpen": true}}
 
@@ -326,7 +326,7 @@ styled-system has done a great job at [explaining how it works](https://github.c
 
 In practice, a Box component can save you a lot of time. In this example, we demonstrate how to reproduce a Banner component.
 
-{{"demo": "pages/system/basics/RealWorld.js"}}
+{{"demo": "pages/system/basics/RealWorld.js", "bg": true}}
 
 ## Prior art
 

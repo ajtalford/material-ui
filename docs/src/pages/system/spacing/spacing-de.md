@@ -8,17 +8,17 @@ Die Abstand-Utility konvertiert die Abkürzung für Marginals und Padding-Eigens
 
 Die *Eigenschaften* ist eine von:
 
-- ` m ` - für Klassen mit *margin*
+- `m` - für Klassen mit *margin*
 - `p` - für Klassen mit *padding*
 
 Die *sides* ist eine von:
 
-- ` t ` - für Klassen, die * margin-top* oder *padding-top* setzen
+- `t` - für Klassen, die * margin-top* oder *padding-top* setzen
 - `b` - für Klassen, die * margin-bottom* oder *padding-bottom* setzen
-- ` l ` - für Klassen, die * margin-links* oder *padding-links* setzen
-- ` r ` - für Klassen, die * margin-rechts* oder *padding-rechts* setzen
-- ` x ` - für Klassen, die sowohl **-links* als auch **-rechts* setzen
-- ` y ` - für Klassen, die sowohl **-top* als auch **-bottom* setzen
+- `l` - für Klassen, die * margin-links* oder *padding-links* setzen
+- `r` - für Klassen, die * margin-rechts* oder *padding-rechts* setzen
+- `x` - für Klassen, die sowohl **-links* als auch **-rechts* setzen
+- `y` - für Klassen, die sowohl **-top* als auch **-bottom* setzen
 - leerzeichen - für Klassen, die auf allen vier Seiten des Elements ein margin oder ein padding festlegen
 
 ## Transformation
@@ -70,7 +70,7 @@ const theme = {
 
 ## Beispiel
 
-{{"demo": "pages/system/spacing/Demo.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/spacing/Demo.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box p={1}>…
@@ -80,7 +80,7 @@ const theme = {
 
 ## Horizontale Zentrierung
 
-{{"demo": "pages/system/spacing/HorizontalCentering.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/spacing/HorizontalCentering.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box mx="auto">…
@@ -94,23 +94,23 @@ import { spacing } from '@material-ui/system';
 
 | Inportname | Eigenschaften | CSS-Eigenschaft                 | Theme-Schlüssel                                                  |
 |:---------- |:------------- |:------------------------------- |:---------------------------------------------------------------- |
-| `spacing`  | `m`           | `margin`                        | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `mt`          | `margin-top`                    | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `mr`          | `margin-right`                  | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `mb`          | `margin-bottom`                 | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `ml`          | `margin-left`                   | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `mx`          | `margin-left`, `margin-right`   | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `my`          | `margin-top`, `margin-bottom`   | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `p`           | `padding`                       | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `pt`          | `padding-top`                   | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `pr`          | `padding-right`                 | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `pb`          | `padding-bottom`                | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `pl`          | `padding-left`                  | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `px`          | `padding-left`, `padding-right` | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
-| `spacing`  | `py`          | `padding-top`, `padding-bottom` | [`spacing`](/customization/default-theme/?expend-path=$.spacing) |
+| `spacing`  | `m`           | `margin`                        | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `mt`          | `margin-top`                    | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `mr`          | `margin-right`                  | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `mb`          | `margin-bottom`                 | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `ml`          | `margin-left`                   | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `mx`          | `margin-left`, `margin-right`   | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `my`          | `margin-top`, `margin-bottom`   | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `p`           | `padding`                       | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `pt`          | `padding-top`                   | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `pr`          | `padding-right`                 | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `pb`          | `padding-bottom`                | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `pl`          | `padding-left`                  | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `px`          | `padding-left`, `padding-right` | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
+| `spacing`  | `py`          | `padding-top`, `padding-bottom` | [`spacing`](/customization/default-theme/?expand-path=$.spacing) |
 
 
-*Some people find the prop shorthand confusing, you can use the full version if you prefer:*
+*Einige Leute finden die Prop Kurzform verwirrend, Sie können die vollständige Version verwenden, wenn Sie sie bevorzugen:*
 
 ```diff
 -<Box pt={2} />

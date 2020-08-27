@@ -1,12 +1,15 @@
-import React from 'react';
+import * as React from 'react';
+import { isFragment } from 'react-is';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { HTMLElementType } from '@material-ui/utils';
 import withStyles from '../styles/withStyles';
 import Popover from '../Popover';
 import MenuList from '../MenuList';
-import ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom';
 import setRef from '../utils/setRef';
 import useTheme from '../styles/useTheme';
+import deprecatedPropType from '../utils/deprecatedPropType';
 
 const RTL_ORIGIN = {
   vertical: 'top',
@@ -43,11 +46,12 @@ const Menu = React.forwardRef(function Menu(props, ref) {
     disableAutoFocusItem = false,
     MenuListProps = {},
     onClose,
-    onEntering,
+    onEntering: onEnteringProp,
     open,
     PaperProps = {},
     PopoverClasses,
     transitionDuration = 'auto',
+    TransitionProps: { onEntering, ...TransitionProps } = {},
     variant = 'selectedMenu',
     ...other
   } = props;
@@ -64,13 +68,15 @@ const Menu = React.forwardRef(function Menu(props, ref) {
     if (menuListActionsRef.current) {
       menuListActionsRef.current.adjustStyleForScrollbar(element, theme);
     }
-
+    if (onEnteringProp) {
+      onEnteringProp(element, isAppearing);
+    }
     if (onEntering) {
       onEntering(element, isAppearing);
     }
   };
 
-  const handleListKeyDown = event => {
+  const handleListKeyDown = (event) => {
     if (event.key === 'Tab') {
       event.preventDefault();
 
@@ -95,10 +101,10 @@ const Menu = React.forwardRef(function Menu(props, ref) {
     }
 
     if (process.env.NODE_ENV !== 'production') {
-      if (child.type === React.Fragment) {
+      if (isFragment(child)) {
         console.error(
           [
-            "Material-UI: the Menu component doesn't accept a Fragment as a child.",
+            "Material-UI: The Menu component doesn't accept a Fragment as a child.",
             'Consider providing an array instead.',
           ].join('\n'),
         );
@@ -117,7 +123,7 @@ const Menu = React.forwardRef(function Menu(props, ref) {
   const items = React.Children.map(children, (child, index) => {
     if (index === activeItemIndex) {
       return React.cloneElement(child, {
-        ref: instance => {
+        ref: (instance) => {
           // #StrictMode ready
           contentAnchorRef.current = ReactDOM.findDOMNode(instance);
           setRef(child.ref, instance);
@@ -133,7 +139,7 @@ const Menu = React.forwardRef(function Menu(props, ref) {
       getContentAnchorEl={getContentAnchorEl}
       classes={PopoverClasses}
       onClose={onClose}
-      onEntering={handleEntering}
+      TransitionProps={{ onEntering: handleEntering, ...TransitionProps }}
       anchorOrigin={theme.direction === 'rtl' ? RTL_ORIGIN : LTR_ORIGIN}
       transformOrigin={theme.direction === 'rtl' ? RTL_ORIGIN : LTR_ORIGIN}
       PaperProps={{
@@ -165,10 +171,18 @@ const Menu = React.forwardRef(function Menu(props, ref) {
 });
 
 Menu.propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |     To update them edit the d.ts file and run "yarn proptypes"     |
+  // ----------------------------------------------------------------------
   /**
-   * The DOM element used to set the position of the menu.
+   * A HTML element, or a function that returns it.
+   * It's used to set the position of the menu.
    */
-  anchorEl: PropTypes.oneOfType([PropTypes.object, PropTypes.func]),
+  anchorEl: PropTypes /* @typescript-to-proptypes-ignore */.oneOfType([
+    HTMLElementType,
+    PropTypes.func,
+  ]),
   /**
    * If `true` (Default) will focus the `[role="menu"]` if no focusable child is found. Disabled
    * children are not focusable. If you set this prop to `false` focus will be placed
@@ -184,7 +198,7 @@ Menu.propTypes = {
    * Override or extend the styles applied to the component.
    * See [CSS API](#css) below for more details.
    */
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object,
   /**
    * When opening the menu will not focus the active item but the `[role="menu"]`
    * unless `autoFocus` is also set to `false`. Not using the default means not
@@ -200,33 +214,33 @@ Menu.propTypes = {
    * Callback fired when the component requests to be closed.
    *
    * @param {object} event The event source of the callback.
-   * @param {string} reason Can be:`"escapeKeyDown"`, `"backdropClick"`, `"tabKeyDown"`.
+   * @param {string} reason Can be: `"escapeKeyDown"`, `"backdropClick"`, `"tabKeyDown"`.
    */
   onClose: PropTypes.func,
   /**
    * Callback fired before the Menu enters.
    */
-  onEnter: PropTypes.func,
+  onEnter: deprecatedPropType(PropTypes.func, 'Use the `TransitionProps` prop instead.'),
   /**
    * Callback fired when the Menu has entered.
    */
-  onEntered: PropTypes.func,
+  onEntered: deprecatedPropType(PropTypes.func, 'Use the `TransitionProps` prop instead.'),
   /**
    * Callback fired when the Menu is entering.
    */
-  onEntering: PropTypes.func,
+  onEntering: deprecatedPropType(PropTypes.func, 'Use the `TransitionProps` prop instead.'),
   /**
    * Callback fired before the Menu exits.
    */
-  onExit: PropTypes.func,
+  onExit: deprecatedPropType(PropTypes.func, 'Use the `TransitionProps` prop instead.'),
   /**
    * Callback fired when the Menu has exited.
    */
-  onExited: PropTypes.func,
+  onExited: deprecatedPropType(PropTypes.func, 'Use the `TransitionProps` prop instead.'),
   /**
    * Callback fired when the Menu is exiting.
    */
-  onExiting: PropTypes.func,
+  onExiting: deprecatedPropType(PropTypes.func, 'Use the `TransitionProps` prop instead.'),
   /**
    * If `true`, the menu is visible.
    */
@@ -243,10 +257,19 @@ Menu.propTypes = {
    * The length of the transition in `ms`, or 'auto'
    */
   transitionDuration: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.shape({ enter: PropTypes.number, exit: PropTypes.number }),
     PropTypes.oneOf(['auto']),
+    PropTypes.number,
+    PropTypes.shape({
+      appear: PropTypes.number,
+      enter: PropTypes.number,
+      exit: PropTypes.number,
+    }),
   ]),
+  /**
+   * Props applied to the transition element.
+   * By default, the element is based on this [`Transition`](http://reactcommunity.org/react-transition-group/transition) component.
+   */
+  TransitionProps: PropTypes.object,
   /**
    * The variant to use. Use `menu` to prevent selected items from impacting the initial focus
    * and the vertical alignment relative to the anchor element.

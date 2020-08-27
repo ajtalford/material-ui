@@ -18,7 +18,7 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     backgroundColor: theme.palette.secondary.light,
@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   list: {
     margin: 0,
     listStyle: 'none',
-    paddingLeft: 0,
+    padding: 0,
   },
   listItem: {
     paddingTop: theme.spacing(0.5),
@@ -124,7 +124,7 @@ export default function AppFooter() {
               }}
               className={classes.language}
             >
-              {LANGUAGES.map(language => (
+              {LANGUAGES.map((language) => (
                 <option value={language.code} key={language.code}>
                   {language.name}
                 </option>

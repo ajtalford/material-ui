@@ -3,13 +3,13 @@ title: Snackbar React component
 components: Snackbar, SnackbarContent
 ---
 
-# スナックバー
+# Snackbar (スナックバー)
 
 <p class="description">Snackbars provide brief messages about app processes. The component is also known as a toast.</p>
 
 [スナックバー](https://material.io/design/components/snackbars.html) は、アプリが実行したプロセスまたは実行するプロセスをユーザーに通知します。 一時的に画面の下部に表示されます。 ユーザーの操作を中断したり、ユーザー入力を消去したりする必要はありません。
 
-スナックバーには、実行された操作に直接関連する1行のテキストが含まれます。 テキストアクションは含まれますが、アイコンは含まれません。 それら使うことで通知を表示できます。
+スナックバーには、実行された操作に直接関連する1行のテキストが含まれます。 テキストアクションは含まれますが、アイコンは含まれません。 それら使うことで通知を表示できます。 テキストアクションは含まれますが、アイコンは含まれません。 それら使うことで通知を表示できます。
 
 #### 頻度
 
@@ -29,7 +29,7 @@ Google Keepのスナックバーの動作を再現することを目的とした
 
 ## 配置されたスナックバー
 
-スナックバーの配置をより柔軟にする必要がある場合があります。
+In wide layouts, snackbars can be left-aligned or center-aligned if they are consistently placed on the same spot at the bottom of the screen, however there may be circumstances where the placement of the snackbar needs to be more flexible. You can control the position of the snackbar by specifying the `anchorOrigin` prop.
 
 {{"demo": "pages/components/snackbars/PositionedSnackbar.js"}}
 
@@ -51,7 +51,7 @@ Google Keepのスナックバーの動作を再現することを目的とした
 
 スナックバーはFAB（モバイル）の上に表示されます。
 
-{{"demo": "pages/components/snackbars/FabIntegrationSnackbar.js", "iframe": true, "maxWidth": 500}}
+{{"demo": "pages/components/snackbars/FabIntegrationSnackbar.js", "iframe": true, "maxWidth": 400}}
 
 ### トランジションの変更
 
@@ -63,7 +63,7 @@ Google Keepのスナックバーの動作を再現することを目的とした
 
 [スライド](/components/transitions/#slide) トランジションの方向を変更できます。
 
-{{"demo": "pages/components/snackbars/TransitionsSnackbar.js"}}
+{{"demo": "pages/components/snackbars/DirectionSnackbar.js"}}
 
 ## 補完プロジェクト
 
@@ -81,27 +81,4 @@ This example demonstrates how to use [notistack](https://github.com/iamhosseindh
 
 (WAI-ARIA: https://www.w3.org/TR/wai-aria-1.1/#alert)
 
-- Since alerts are not required to receive focus, content authors should not require users to close a Snackbar if the role is set to `alert` through the SnackbarContent `role` prop. This is the default role.
-- If a Snackbar requires focus to close it, then content authors should use the `role` of `alertdialog`.
-
-```jsx
-<SnackbarContent
-  message="This is a Snackbar message."
-  role="alert"
-/>
-```
-
-```jsx
-<Snackbar
-  ContentProps={{
-    'aria-describedby': 'snackbar-fab-message-id',
-    'role': 'alertdialog',
-  }}
-  message={<span id="snackbar-fab-message-id">Archived</span>}
-  action={
-    <Button color="inherit" size="small">
-      Undo
-    </Button>
-  }
-/>
-```
+- By default, the snackbar won't auto-hide. However, if you decide to use the `autoHideDuration` prop, it's recommended to give the user [sufficient time](https://www.w3.org/TR/UNDERSTANDING-WCAG20/time-limits.html) to respond.

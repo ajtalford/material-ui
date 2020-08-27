@@ -10,7 +10,7 @@ export default function ScrollDialog() {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState('paper');
 
-  const handleClickOpen = scrollType => () => {
+  const handleClickOpen = (scrollType) => () => {
     setOpen(true);
     setScroll(scrollType);
   };
@@ -21,9 +21,11 @@ export default function ScrollDialog() {
 
   const descriptionElementRef = React.useRef(null);
   React.useEffect(() => {
-    const { current: descriptionElement } = descriptionElementRef;
-    if (descriptionElement !== null) {
-      descriptionElement.focus();
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
     }
   }, [open]);
 

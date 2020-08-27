@@ -1,18 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import { useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
+import { useTheme, makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     '& a': {
       display: 'block',
-      marginTop: theme.spacing(1),
     },
     '& img': {
-      width: 125,
+      display: 'inline-block',
     },
   },
   placeholder: {
@@ -34,24 +33,49 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function DiamondSponsors() {
+export default function DiamondSponsors(props) {
   const classes = useStyles();
-  const t = useSelector(state => state.options.t);
+  const { spot } = props;
+  const theme = useTheme();
+  const t = useSelector((state) => state.options.t);
 
   return (
-    <Box mx={3} my={2} className={classes.root}>
-      <Typography variant="caption" color="textSecondary" display="block">
+    <div className={classes.root}>
+      <Typography variant="caption" color="textSecondary" display="block" gutterBottom>
         {t('diamondSponsors')}
       </Typography>
       <a
+        data-ga-event-category="sponsor"
+        data-ga-event-action={spot}
+        data-ga-event-label="octopus"
+        href="https://octopus.com/?utm_source=materialui&utm_medium=referral"
+        rel="noopener noreferrer sponsored"
+        target="_blank"
+        style={{ width: 125, height: 35 }}
+      >
+        <img
+          width="125"
+          height="35"
+          src={`/static/in-house/octopus-${theme.palette.type}.png`}
+          alt="octopus"
+          title="Repeatable, reliable deployments"
+          loading="lazy"
+        />
+      </a>
+      <a
+        style={{ marginTop: 8 }}
         aria-label={t('diamondSponsors')}
         className={classes.placeholder}
         rel="noopener noreferrer"
         target="_blank"
-        href="https://www.patreon.com/oliviertassinari"
+        href="/discover-more/backers/#diamond"
       >
         <AddIcon />
       </a>
-    </Box>
+    </div>
   );
 }
+
+DiamondSponsors.propTypes = {
+  spot: PropTypes.string.isRequired,
+};

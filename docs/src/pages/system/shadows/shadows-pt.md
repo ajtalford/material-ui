@@ -4,7 +4,9 @@
 
 ## Exemplo
 
-{{"demo": "pages/system/shadows/Demo.js", "defaultCodeOpen": false}}
+Os utilitários permitem que você controle a profundidade ou distância relativa entre duas superfícies ao longo do eixo z. Por padrão, há 25 níveis de elevação.
+
+{{"demo": "pages/system/shadows/Demo.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box boxShadow={0}>…
@@ -19,6 +21,6 @@
 import { shadows } from '@material-ui/system';
 ```
 
-| Nome da importação | Prop        | Propriedade CSS | Chave do tema |
+| Nome da importação | Propriedade | Propriedade CSS | Chave do tema |
 |:------------------ |:----------- |:--------------- |:------------- |
 | `boxShadow`        | `boxShadow` | `box-shadow`    | `shadows`     |

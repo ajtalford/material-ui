@@ -8,7 +8,9 @@ import { makeStyles } from '@material-ui/core/styles';
 // ⚠️ No support for IE 11
 function countryToFlag(isoCode: string) {
   return typeof String.fromCodePoint !== 'undefined'
-    ? isoCode.toUpperCase().replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397))
+    ? isoCode
+        .toUpperCase()
+        .replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397))
     : isoCode;
 }
 
@@ -29,27 +31,26 @@ export default function CountrySelect() {
     <Autocomplete
       id="country-select-demo"
       style={{ width: 300 }}
-      options={countries}
+      options={countries as CountryType[]}
       classes={{
         option: classes.option,
       }}
       autoHighlight
-      getOptionLabel={(option: CountryType) => option.label}
-      renderOption={(option: CountryType) => (
+      getOptionLabel={(option) => option.label}
+      renderOption={(option) => (
         <React.Fragment>
           <span>{countryToFlag(option.code)}</span>
           {option.label} ({option.code}) +{option.phone}
         </React.Fragment>
       )}
-      renderInput={params => (
+      renderInput={(params) => (
         <TextField
           {...params}
           label="Choose a country"
           variant="outlined"
-          fullWidth
           inputProps={{
             ...params.inputProps,
-            autoComplete: 'disabled', // disable autocomplete and autofill
+            autoComplete: 'new-password', // disable autocomplete and autofill
           }}
         />
       )}
@@ -103,9 +104,9 @@ const countries = [
   { code: 'BZ', label: 'Belize', phone: '501' },
   { code: 'CA', label: 'Canada', phone: '1', suggested: true },
   { code: 'CC', label: 'Cocos (Keeling) Islands', phone: '61' },
-  { code: 'CD', label: 'Congo, Republic of the', phone: '242' },
+  { code: 'CD', label: 'Congo, Democratic Republic of the', phone: '243' },
   { code: 'CF', label: 'Central African Republic', phone: '236' },
-  { code: 'CG', label: 'Congo, Democratic Republic of the', phone: '243' },
+  { code: 'CG', label: 'Congo, Republic of the', phone: '242' },
   { code: 'CH', label: 'Switzerland', phone: '41' },
   { code: 'CI', label: "Cote d'Ivoire", phone: '225' },
   { code: 'CK', label: 'Cook Islands', phone: '682' },

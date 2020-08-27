@@ -1,8 +1,10 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
+import * as ReactDOM from 'react-dom';
 import { elementTypeAcceptingRef } from '@material-ui/utils';
+import { getThemeProps } from '@material-ui/styles';
 import Drawer, { getAnchor, isHorizontal } from '../Drawer/Drawer';
+import ownerDocument from '../utils/ownerDocument';
 import useEventCallback from '../utils/useEventCallback';
 import { duration } from '../styles/transitions';
 import useTheme from '../styles/useTheme';
@@ -92,7 +94,7 @@ function findNativeHandler({ domTreeShapes, start, current, anchor }) {
     },
   };
 
-  return domTreeShapes.some(shape => {
+  return domTreeShapes.some((shape) => {
     // Determine if we are going backward or forward.
     let goingForward = current >= start;
     if (anchor === 'top' || anchor === 'left') {
@@ -114,18 +116,19 @@ function findNativeHandler({ domTreeShapes, start, current, anchor }) {
   });
 }
 
-const disableSwipeToOpenDefault =
-  typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
+const iOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
 const transitionDurationDefault = { enter: duration.enteringScreen, exit: duration.leavingScreen };
 
 const useEnhancedEffect = typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect;
 
-const SwipeableDrawer = React.forwardRef(function SwipeableDrawer(props, ref) {
+const SwipeableDrawer = React.forwardRef(function SwipeableDrawer(inProps, ref) {
+  const theme = useTheme();
+  const props = getThemeProps({ name: 'MuiSwipeableDrawer', props: { ...inProps }, theme });
   const {
     anchor = 'left',
     disableBackdropTransition = false,
     disableDiscovery = false,
-    disableSwipeToOpen = disableSwipeToOpenDefault,
+    disableSwipeToOpen = iOS,
     hideBackdrop,
     hysteresis = 0.52,
     minFlingVelocity = 450,
@@ -141,7 +144,6 @@ const SwipeableDrawer = React.forwardRef(function SwipeableDrawer(props, ref) {
     ...other
   } = props;
 
-  const theme = useTheme();
   const [maybeSwiping, setMaybeSwiping] = React.useState(false);
   const swipeInstance = React.useRef({
     isSwiping: null,
@@ -209,7 +211,7 @@ const SwipeableDrawer = React.forwardRef(function SwipeableDrawer(props, ref) {
     [anchor, disableBackdropTransition, hideBackdrop, theme, transitionDuration],
   );
 
-  const handleBodyTouchEnd = useEventCallback(event => {
+  const handleBodyTouchEnd = useEventCallback((event) => {
     if (!touchDetected.current) {
       return;
     }
@@ -268,7 +270,7 @@ const SwipeableDrawer = React.forwardRef(function SwipeableDrawer(props, ref) {
     }
   });
 
-  const handleBodyTouchMove = useEventCallback(event => {
+  const handleBodyTouchMove = useEventCallback((event) => {
     // the ref may be null when a parent component updates while swiping
     if (!paperRef.current || !touchDetected.current) {
       return;
@@ -400,7 +402,7 @@ const SwipeableDrawer = React.forwardRef(function SwipeableDrawer(props, ref) {
     setPosition(translate);
   });
 
-  const handleBodyTouchStart = useEventCallback(event => {
+  const handleBodyTouchStart = useEventCallback((event) => {
     // We are not supposed to handle this touch move.
     // Example of use case: ignore the event if there is a Slider.
     if (event.defaultPrevented) {
@@ -467,14 +469,15 @@ const SwipeableDrawer = React.forwardRef(function SwipeableDrawer(props, ref) {
 
   React.useEffect(() => {
     if (variant === 'temporary') {
-      document.body.addEventListener('touchstart', handleBodyTouchStart);
-      document.body.addEventListener('touchmove', handleBodyTouchMove, { passive: false });
-      document.body.addEventListener('touchend', handleBodyTouchEnd);
+      const doc = ownerDocument(paperRef.current);
+      doc.addEventListener('touchstart', handleBodyTouchStart);
+      doc.addEventListener('touchmove', handleBodyTouchMove, { passive: false });
+      doc.addEventListener('touchend', handleBodyTouchEnd);
 
       return () => {
-        document.body.removeEventListener('touchstart', handleBodyTouchStart);
-        document.body.removeEventListener('touchmove', handleBodyTouchMove, { passive: false });
-        document.body.removeEventListener('touchend', handleBodyTouchEnd);
+        doc.removeEventListener('touchstart', handleBodyTouchStart);
+        doc.removeEventListener('touchmove', handleBodyTouchMove, { passive: false });
+        doc.removeEventListener('touchend', handleBodyTouchEnd);
       };
     }
 
@@ -497,14 +500,9 @@ const SwipeableDrawer = React.forwardRef(function SwipeableDrawer(props, ref) {
     }
   }, [open]);
 
-  const handleBackdropRef = React.useCallback(instance => {
+  const handleBackdropRef = React.useCallback((instance) => {
     // #StrictMode ready
     backdropRef.current = ReactDOM.findDOMNode(instance);
-  }, []);
-
-  const handlePaperRef = React.useCallback(instance => {
-    // #StrictMode ready
-    paperRef.current = ReactDOM.findDOMNode(instance);
   }, []);
 
   return (
@@ -525,7 +523,7 @@ const SwipeableDrawer = React.forwardRef(function SwipeableDrawer(props, ref) {
             pointerEvents: variant === 'temporary' && !open ? 'none' : '',
             ...PaperProps.style,
           },
-          ref: handlePaperRef,
+          ref: paperRef,
         }}
         anchor={anchor}
         transitionDuration={calculatedDurationRef.current || transitionDuration}
@@ -618,7 +616,7 @@ SwipeableDrawer.propTypes = {
     style: PropTypes.object,
   }),
   /**
-   * Props applied to the swipe area element.
+   * The element is used to intercept the touch events on the edge.
    */
   SwipeAreaProps: PropTypes.object,
   /**

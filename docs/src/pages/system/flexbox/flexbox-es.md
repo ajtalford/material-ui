@@ -2,13 +2,13 @@
 
 <p class="description">Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive flexbox utilities.</p>
 
-If you are **new to or unfamiliar with flexbox**, we encourage you to read this [CSS-Tricks flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/) guide.
+Si recién comienzas y no estás familiarizado con flexbox, te recomendamos leer la siguiente guía [CSS-Tricks flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/).
 
 ## Properties for the Parent
 
 ### display
 
-{{"demo": "pages/system/flexbox/Display.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/Display.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box display="flex">…
@@ -16,7 +16,7 @@ If you are **new to or unfamiliar with flexbox**, we encourage you to read this 
 
 ### flex-direction
 
-{{"demo": "pages/system/flexbox/FlexDirection.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/FlexDirection.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box flexDirection="row">…
@@ -25,7 +25,7 @@ If you are **new to or unfamiliar with flexbox**, we encourage you to read this 
 
 ### flex-wrap
 
-{{"demo": "pages/system/flexbox/FlexWrap.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/FlexWrap.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box flexWrap="nowrap">…
@@ -34,7 +34,7 @@ If you are **new to or unfamiliar with flexbox**, we encourage you to read this 
 
 ### justify-content
 
-{{"demo": "pages/system/flexbox/JustifyContent.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/JustifyContent.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box justifyContent="flex-start">…
@@ -44,7 +44,7 @@ If you are **new to or unfamiliar with flexbox**, we encourage you to read this 
 
 ### align-items
 
-{{"demo": "pages/system/flexbox/AlignItems.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/AlignItems.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box alignItems="flex-start">…
@@ -54,7 +54,7 @@ If you are **new to or unfamiliar with flexbox**, we encourage you to read this 
 
 ### align-content
 
-{{"demo": "pages/system/flexbox/AlignContent.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/AlignContent.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box alignContent="flex-start">…
@@ -65,7 +65,7 @@ If you are **new to or unfamiliar with flexbox**, we encourage you to read this 
 
 ### order
 
-{{"demo": "pages/system/flexbox/Order.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/Order.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box order={2}>Item 1</Box>
@@ -75,7 +75,7 @@ If you are **new to or unfamiliar with flexbox**, we encourage you to read this 
 
 ### flex-grow
 
-{{"demo": "pages/system/flexbox/FlexGrow.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/FlexGrow.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box flexGrow={1}>Item 1</Box>
@@ -85,7 +85,7 @@ If you are **new to or unfamiliar with flexbox**, we encourage you to read this 
 
 ### flex-shrink
 
-{{"demo": "pages/system/flexbox/FlexShrink.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/FlexShrink.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box width="100%">Item 1</Box>
@@ -95,7 +95,7 @@ If you are **new to or unfamiliar with flexbox**, we encourage you to read this 
 
 ### align-self
 
-{{"demo": "pages/system/flexbox/AlignSelf.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/flexbox/AlignSelf.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box>Item 1</Box>

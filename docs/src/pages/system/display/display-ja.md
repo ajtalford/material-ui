@@ -1,12 +1,12 @@
 # ディスプレイ
 
-<p class="description">Quickly and responsively toggle the display value of components and more with the display utilities. 一般的な値の一部のサポートと、印刷時の表示を制御するための追加機能が含まれています。</p>
+<p class="description">一般的な値の一部のサポートと、印刷時の表示を制御するための追加機能が含まれています。 Quickly and responsively toggle the display value of components and more with the display utilities.</p>
 
 ## 例
 
 ### Inline
 
-{{"demo": "pages/system/display/Inline.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/display/Inline.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box component="div" display="inline">inline</Box>
@@ -15,7 +15,7 @@
 
 ### Block
 
-{{"demo": "pages/system/display/Block.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/display/Block.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box component="span" display="block">block</Box>

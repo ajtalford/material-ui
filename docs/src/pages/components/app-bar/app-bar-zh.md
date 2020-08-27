@@ -1,56 +1,56 @@
 ---
-title: React App Bar（应用栏）组件
+title: React 应用栏组件
 components: AppBar, Toolbar, Menu
 ---
 
-# App Bar（应用栏）
+# App Bar 应用栏
 
-<p class="description">应用栏用来显示与当前屏幕相关的信息和操作。</p>
+<p class="description">应用栏组件展示了与当前屏幕息息相关的信息和操作。</p>
 
-[顶部应用栏](https://material.io/design/components/app-bars-top.html) 提供与当前屏幕相关的内容和操作。 它用于展示品牌、屏幕标题、导航和操作选项。
+而[顶部应用栏](https://material.io/design/components/app-bars-top.html)则提供与当前屏幕相关的内容和操作。 它可用于展示品牌、屏幕标题、导航和操作选项。
 
-它可以转换为上下文相关的操作栏或直接用作导航栏。
+它既可以用作于转换为上下文相关的操作栏，又可以直接充当导航栏。
 
 ## 简单的应用栏
 
-{{"demo": "pages/components/app-bar/ButtonAppBar.js"}}
+{{"demo": "pages/components/app-bar/ButtonAppBar.js", "bg": true}}
 
 ## 带一个主搜索输入框的应用栏
 
 一个主要搜索栏。
 
-{{"demo": "pages/components/app-bar/PrimarySearchAppBar.js"}}
+{{"demo": "pages/components/app-bar/PrimarySearchAppBar.js", "bg": true}}
 
 ## 带有菜单的应用栏
 
-{{"demo": "pages/components/app-bar/MenuAppBar.js"}}
+{{"demo": "pages/components/app-bar/MenuAppBar.js", "bg": true}}
 
 ## 带有搜索输入框的应用栏
 
 一个侧边搜索栏。
 
-{{"demo": "pages/components/app-bar/SearchAppBar.js"}}
+{{"demo": "pages/components/app-bar/SearchAppBar.js", "bg": true}}
 
 ## 紧凑模式 (仅限桌面模式)
 
-{{"demo": "pages/components/app-bar/DenseAppBar.js"}}
+{{"demo": "pages/components/app-bar/DenseAppBar.js", "bg": true}}
 
-## Prominent
+## 突出模式
 
-A prominent app bar.
+一个突出的应用栏。
 
-{{"demo": "pages/components/app-bar/ProminentAppBar.js"}}
+{{"demo": "pages/components/app-bar/ProminentAppBar.js", "bg": true}}
 
-## Bottom App Bar
+## 底部应用栏
 
-{{"demo": "pages/components/app-bar/BottomAppBar.js", "iframe": true, "maxWidth": 500}}
+{{"demo": "pages/components/app-bar/BottomAppBar.js", "iframe": true, "maxWidth": 400}}
 
-## Fixed placement
+## 固定的位置
 
-When you render the app bar position fixed, the dimension of the element doesn't impact the rest of the page. This can cause some part of your content to be invisible, behind the app bar. Here are 3 possible solutions:
+当渲染一个固定位置的应用栏时，元素的尺寸不会影响页面的其余内容。 这可能导致部分内容会被挡在应用程序栏后面，而无法可见。 下面是3种可能的解决方案：
 
-1. You can use `position="sticky"` instead of fixed. ⚠️ sticky is not supported by IE 11.
-2. You can render a second `<Toolbar />` component:
+1. 使用 `position =“ sticky”` 代替 fixed。 ⚠️ IE 11不支持 sticky。
+2. 可以渲染第二个 `<Toolbar />` 组件：
 
 ```jsx
 function App() {
@@ -65,7 +65,7 @@ function App() {
 }
 ```
 
-3. You can use `theme.mixins.toolbar` CSS:
+3. 也可以用 `theme.mixins.toolbar` 的 CSS：
 
 ```jsx
 const useStyles = makeStyles(theme => ({
@@ -85,27 +85,27 @@ function App() {
 };
 ```
 
-## Scrolling
+## Scrolling 滚动
 
-You can use the `useScrollTrigger()` hook to respond to user scroll actions.
+您可以使用 `useScrollTrigger()` 这个 hook 来相应用户触发的滚动操作。
 
 ### 隐藏应用栏
 
-The app bar hides on scroll down to leave more space for reading.
+向下滚动会隐藏应用栏，这样一来会留有更多的空间进行阅读。
 
-{{"demo": "pages/components/app-bar/HideAppBar.js", "iframe": true, "maxWidth": 500}}
+{{"demo": "pages/components/app-bar/HideAppBar.js", "iframe": true}}
 
 ### 变高的应用栏
 
-The app bar elevates on scroll to communicate that the user is not at the top of the page.
+应用栏会在滚动时提升，以表明用户还未到页面的顶部。
 
-{{"demo": "pages/components/app-bar/ElevateAppBar.js", "iframe": true, "maxWidth": 500}}
+{{"demo": "pages/components/app-bar/ElevateAppBar.js", "iframe": true}}
 
 ### 回到顶部
 
-A floating action buttons appears on scroll to make it easy to get back to the top of the page.
+在滚动的时候，会出现一个浮动操作按钮，这样以便于返回页面的顶部。
 
-{{"demo": "pages/components/app-bar/BackToTop.js", "iframe": true, "maxWidth": 500}}
+{{"demo": "pages/components/app-bar/BackToTop.js", "iframe": true}}
 
 ### `useScrollTrigger([options]) => trigger`
 
@@ -119,7 +119,7 @@ A floating action buttons appears on scroll to make it easy to get back to the t
 
 #### 返回结果
 
-`trigger`: Does the scroll position match the criteria?
+`trigger`: 此滚动的位置符合要求吗？
 
 #### 例子
 

@@ -1,12 +1,12 @@
-# Display
+# Дисплей
 
-<p class="description">Quickly and responsively toggle the display value of components and more with the display utilities. Includes support for some of the more common values, as well as some extras for controlling display when printing.</p>
+<p class="description">Быстро и адаптивно изменяйте видимость компонент и многое другое с помощью наших утилит управления видимостью. Включает поддержку некоторых из наиболее распространенных значений, а также некоторые дополнительные возможности для управления отображением при печати.</p>
 
 ## Примеры
 
 ### Inline
 
-{{"demo": "pages/system/display/Inline.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/display/Inline.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box component="div" display="inline">inline</Box>
@@ -15,7 +15,7 @@
 
 ### Block
 
-{{"demo": "pages/system/display/Block.js", "defaultCodeOpen": false}}
+{{"demo": "pages/system/display/Block.js", "defaultCodeOpen": false, "bg": true}}
 
 ```jsx
 <Box component="span" display="block">block</Box>

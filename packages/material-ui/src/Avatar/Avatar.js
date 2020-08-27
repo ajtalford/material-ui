@@ -1,9 +1,11 @@
-import React from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import { chainPropTypes } from '@material-ui/utils';
 import withStyles from '../styles/withStyles';
+import Person from '../internal/svg-icons/Person';
 
-export const styles = theme => ({
+export const styles = (theme) => ({
   /* Styles applied to the root element. */
   root: {
     position: 'relative',
@@ -20,7 +22,7 @@ export const styles = theme => ({
     overflow: 'hidden',
     userSelect: 'none',
   },
-  /* Styles applied to the root element if there are children and not `src` or `srcSet`. */
+  /* Styles applied to the root element if not `src` or `srcSet`. */
   colorDefault: {
     color: theme.palette.background.default,
     backgroundColor:
@@ -28,6 +30,8 @@ export const styles = theme => ({
   },
   /* Styles applied to the root element if `variant="circle"`. */
   circle: {},
+  /* Styles applied to the root element if `variant="circular"`. */
+  circular: {},
   /* Styles applied to the root element if `variant="rounded"`. */
   rounded: {
     borderRadius: theme.shape.borderRadius,
@@ -43,8 +47,52 @@ export const styles = theme => ({
     textAlign: 'center',
     // Handle non-square image. The property isn't supported by IE 11.
     objectFit: 'cover',
+    // Hide alt text.
+    color: 'transparent',
+    // Hide the image broken icon, only works on Chrome.
+    textIndent: 10000,
+  },
+  /* Styles applied to the fallback icon */
+  fallback: {
+    width: '75%',
+    height: '75%',
   },
 });
+
+function useLoaded({ src, srcSet }) {
+  const [loaded, setLoaded] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!src && !srcSet) {
+      return undefined;
+    }
+
+    setLoaded(false);
+
+    let active = true;
+    const image = new Image();
+    image.src = src;
+    image.srcSet = srcSet;
+    image.onload = () => {
+      if (!active) {
+        return;
+      }
+      setLoaded('loaded');
+    };
+    image.onerror = () => {
+      if (!active) {
+        return;
+      }
+      setLoaded('error');
+    };
+
+    return () => {
+      active = false;
+    };
+  }, [src, srcSet]);
+
+  return loaded;
+}
 
 const Avatar = React.forwardRef(function Avatar(props, ref) {
   const {
@@ -62,9 +110,13 @@ const Avatar = React.forwardRef(function Avatar(props, ref) {
   } = props;
 
   let children = null;
-  const img = src || srcSet;
 
-  if (img) {
+  // Use a hook instead of onError on the img element to support server-side rendering.
+  const loaded = useLoaded({ src, srcSet });
+  const hasImg = src || srcSet;
+  const hasImgNotFailing = hasImg && loaded !== 'error';
+
+  if (hasImgNotFailing) {
     children = (
       <img
         alt={alt}
@@ -75,8 +127,12 @@ const Avatar = React.forwardRef(function Avatar(props, ref) {
         {...imgProps}
       />
     );
-  } else {
+  } else if (childrenProp != null) {
     children = childrenProp;
+  } else if (hasImg && alt) {
+    children = alt[0];
+  } else {
+    children = <Person className={classes.fallback} />;
   }
 
   return (
@@ -86,7 +142,7 @@ const Avatar = React.forwardRef(function Avatar(props, ref) {
         classes.system,
         classes[variant],
         {
-          [classes.colorDefault]: !img,
+          [classes.colorDefault]: !hasImgNotFailing,
         },
         className,
       )}
@@ -99,6 +155,10 @@ const Avatar = React.forwardRef(function Avatar(props, ref) {
 });
 
 Avatar.propTypes = {
+  // ----------------------------- Warning --------------------------------
+  // | These PropTypes are generated from the TypeScript type definitions |
+  // |     To update them edit the d.ts file and run "yarn proptypes"     |
+  // ----------------------------------------------------------------------
   /**
    * Used in combination with `src` or `srcSet` to
    * provide an alt attribute for the rendered `img` element.
@@ -113,19 +173,36 @@ Avatar.propTypes = {
    * Override or extend the styles applied to the component.
    * See [CSS API](#css) below for more details.
    */
-  classes: PropTypes.object.isRequired,
+  classes: chainPropTypes(PropTypes.object, (props) => {
+    const { classes } = props;
+    if (classes == null) {
+      return null;
+    }
+
+    if (
+      classes.circle != null &&
+      // 2 classnames? one from withStyles the other must be custom
+      classes.circle.split(' ').length > 1
+    ) {
+      throw new Error(
+        `Material-UI: The \`circle\` class was deprecated. Use \`circular\` instead.`,
+      );
+    }
+
+    return null;
+  }),
   /**
    * @ignore
    */
   className: PropTypes.string,
   /**
    * The component used for the root node.
-   * Either a string to use a DOM element or a component.
+   * Either a string to use a HTML element or a component.
    */
-  component: PropTypes.elementType,
+  component: PropTypes /* @typescript-to-proptypes-ignore */.elementType,
   /**
-   * Attributes applied to the `img` element if the component
-   * is used to display an image.
+   * Attributes applied to the `img` element if the component is used to display an image.
+   * It can be used to listen for the loading error event.
    */
   imgProps: PropTypes.object,
   /**
@@ -138,12 +215,23 @@ Avatar.propTypes = {
   src: PropTypes.string,
   /**
    * The `srcSet` attribute for the `img` element.
+   * Use this attribute for responsive image display.
    */
   srcSet: PropTypes.string,
   /**
    * The shape of the avatar.
    */
-  variant: PropTypes.oneOf(['circle', 'rounded', 'square']),
+  variant: chainPropTypes(PropTypes.oneOf(['circle', 'circular', 'rounded', 'square']), (props) => {
+    const { variant } = props;
+
+    if (variant === 'circle') {
+      throw new Error(
+        'Material-UI: `variant="circle"` was deprecated. Use `variant="circular"` instead.',
+      );
+    }
+
+    return null;
+  }),
 };
 
 export default withStyles(styles, { name: 'MuiAvatar' })(Avatar);
